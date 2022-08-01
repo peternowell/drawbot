@@ -49,7 +49,7 @@ setup(name="drawBot",
         ]
     },
     install_requires=[
-        "pyobjc",
+        "pyobjc-framework_CoreText",
         "fontTools",
         "booleanOperations",
         "pillow"
