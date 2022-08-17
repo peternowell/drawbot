@@ -2,6 +2,8 @@ import AppKit
 import CoreText
 import Quartz
 
+from Quartz import kCGPDFContextCreator
+
 from .tools import gifTools
 
 from .baseContext import BaseContext, FormattedString
@@ -43,7 +45,13 @@ class PDFContext(BaseContext):
             # create a new pdf document
             self._pdfData = Quartz.CFDataCreateMutable(None, 0)
             dataConsumer = Quartz.CGDataConsumerCreateWithCFData(self._pdfData)
-            self._pdfContext = Quartz.CGPDFContextCreate(dataConsumer, mediaBox, None)
+            
+            # Font Proofer Addition
+            auxiliaryInfoDict = {
+                kCGPDFContextCreator : "Font Proofer",
+            }
+            
+            self._pdfContext = Quartz.CGPDFContextCreate(dataConsumer, mediaBox, auxiliaryInfoDict)
             Quartz.CGContextBeginPage(self._pdfContext, mediaBox)
             self._hasContext = True
 
