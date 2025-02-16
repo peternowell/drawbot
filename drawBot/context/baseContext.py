@@ -1203,14 +1203,14 @@ class FormattedString(SVGContextPropertyMixin, ContextPropertyMixin):
                 # store openTypeFeatures in a custom attributes key
                 attributes["drawbot.openTypeFeatures"] = dict(self._openTypeFeatures)
                 # get existing openTypeFeatures for the font
-                existingOpenTypeFeatures = openType.getFeatureTagsForFont(font)
+                # existingOpenTypeFeatures = openType.getFeatureTagsForFont(font) # PN: BUG WORKAROUND
                 # sort features by their on/off state
                 # set all disabled features first
                 orderedOpenTypeFeatures = sorted(self._openTypeFeatures.items(), key=lambda kv: kv[1])
                 for featureTag, value in orderedOpenTypeFeatures:
-                    if value and featureTag not in existingOpenTypeFeatures:
-                        # only warn when the feature is on and not existing for the current font
-                        warnings.warn("OpenType feature '%s' not available for '%s'" % (featureTag, self._font))
+                    # if value and featureTag not in existingOpenTypeFeatures: # PN: BUG WORKAROUND
+                    #     # only warn when the feature is on and not existing for the current font
+                    #     warnings.warn("OpenType feature '%s' not available for '%s'" % (featureTag, self._font))
                     feature = dict(CTFeatureOpenTypeTag=featureTag, CTFeatureOpenTypeValue=value)
                     coreTextFontFeatures.append(feature)
                     # The next lines are a fallback for macOS < 10.13
